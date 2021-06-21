@@ -1,0 +1,41 @@
+<h2>Magasin</h2>
+<h3>Formulaire d'ajout</h3>
+<div class="add">
+  <form [formGroup]="magasinForm" (ngSubmit)="addMagasin()">
+    <div class="field">
+      <label for="name">Nom</label><br>
+      <input type="text" id="name" formControlName="name">
+    </div>
+    <div class="field">
+      <label for="street">Rue</label><br>
+      <input type="text" id="street" formControlName="street">
+    </div>
+    <div class="field">
+      <label for="number">N°</label><br>
+      <input type="number" id="number" formControlName="number">
+    </div>
+    <div class="field">
+      <label for="city">Ville</label><br>
+      <select type="text" id="city" formControlName="city">
+        <option value="-" selected disabled>- Choisissez une ville -</option>
+        <optgroup *ngFor="let province of provinceList" label={{province}}>
+          <option *ngFor="let ville of villeList|province:province" value={{ville.postalCode}}>{{ville.name}}</option>
+        </optgroup>
+        
+      </select>
+    </div>
+    <div class="field">
+      <label for="locationLink">Lien vers carte du lieu</label><br>
+      <input type="text" id="locationLink" formControlName="locationLink">
+    </div>
+    <br><div class="flex-center"><button class="blue" type="submit">Ajouter</button></div>
+  </form>
+  <div class="errors">
+    <ul>
+      <li *ngIf="magasinForm.controls.name.touched && magasinForm.controls.name.hasError('required')">Le nom est requis</li>
+      <li *ngIf="magasinForm.controls.street.touched && magasinForm.controls.street.hasError('required')">La rue est requise</li>
+      <li *ngIf="magasinForm.controls.number.touched && magasinForm.controls.number.hasError('required')">Le numéro est requis</li>
+      <li *ngIf="magasinForm.controls.city.touched && magasinForm.controls.city.hasError('pattern')">Une ville doit être sélectionnée</li>
+    </ul>
+  </div>
+</div>

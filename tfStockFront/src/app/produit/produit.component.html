@@ -1,0 +1,59 @@
+<h2>Produits</h2>
+<button routerLink="/add-produit" class="ajouter blue">Ajouter ➕</button>
+<h3 *ngIf="!updateToggle">Liste de produits</h3>
+<label for="typeSelected" *ngIf="!updateToggle">Type : </label>
+<select id="typeSelected" [(ngModel)]="typeSelected" (change)="onTypeChange($event.target.value)" *ngIf="!updateToggle">
+    <option value="0" selected>Tous les types</option>
+    <option *ngFor="let type of typeList" value={{type.id}} >{{type.name}}</option>
+</select>
+<p *ngIf="produitList.length == 0 && !updateToggle">Aucun produit ne correspond à ce type</p>
+<table *ngIf="produitList.length != 0 && !updateToggle">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Type</th>
+            <th>Lien</th>
+            <th class="actions">Actions</th>
+          </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor ="let produit of produitList">
+            <td>{{produit.id}}</td>
+            <td [routerLink]="['/produit', produit.id]" class="clickable" title="Détails du produit">{{produit.name}}</td>
+            <td [routerLink]="['/type', produit.type.id]" class="clickable" title="Détails du type">{{produit.type.name}}</td>
+            <td><a [href]=produit.link *ngIf="produit.link != null">Plus d'infos</a><span *ngIf="produit.link == null">/</span></td>
+            <td><button class="orange" (click)="toggleUpdate(produit)">Modifier</button><button class="red" (click)="deleteProduit(produit)" *ngIf="isProduitDeletable(produit)">Supprimer</button></td>
+        </tr>
+    </tbody>
+    
+  </table>
+<h3 *ngIf="updateToggle">Modification du produit</h3>
+<form *ngIf="updateToggle" [formGroup]="updateForm" (ngSubmit)="updateProduit()">
+    <table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Type</th>
+            <th>Lien</th>
+            <th class="actions">Validation</th>
+          </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{selectedProduitId}}</td>
+            <td><input type="text" id="uName" formControlName="name"></td>
+            <td><select id="uType" formControlName="type">
+                <option *ngFor="let type of typeList" value={{type.id}}>{{type.name}}</option>
+            </select></td>
+            <td>
+                <input type="url" id="uLink" formControlName="link">
+            </td>
+            <td><button class="orange">Modifier</button></td>
+        </tr>
+    </tbody>
+    
+  </table>
+</form>
+

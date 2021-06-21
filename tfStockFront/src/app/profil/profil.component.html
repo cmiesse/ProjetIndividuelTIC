@@ -1,0 +1,40 @@
+<div><h2>Profil utilisateur</h2>
+    <table>
+        <tr>
+            <th>Pseudo</th>
+            <td>{{profile.username}}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{profile.email}}</td>
+        </tr>
+        <tr>
+            <th>Nom complet</th>
+            <td>{{profile.firstName}} {{profile.lastName}}</td>
+        </tr>
+        <tr>
+            <th>Ville</th>
+            <td>{{profile.city.name}}</td>
+        </tr>
+        <tr>
+            <th>Types choisis</th>
+            <td><ul>
+                <li *ngFor="let type of profile.chosenTypes" class="clickable" [routerLink]="['/type',type.id]" title="Détails du type">{{type.name}}</li>
+            </ul></td>
+            </tr>
+        <tr>
+            <th>Produits choisis</th>
+            <td><ul>
+                <li *ngFor="let product of profile.chosenProducts" class="clickable" [routerLink]="['/produit', product.id]" title="Détails du produit">{{product.name}}</li>
+            </ul></td>
+        </tr>
+        <tr>
+            <th>Rôle</th>
+            <td><span *ngIf="profile.roles.includes('ROLE_ADMIN')">ADMIN</span><span *ngIf="!profile.roles.includes('ROLE_ADMIN')">USER</span></td>
+        </tr>
+      </table>
+      <button class="orange" routerLink="/change_password">Changer votre mot de passe</button>
+      
+      
+      
+</div>

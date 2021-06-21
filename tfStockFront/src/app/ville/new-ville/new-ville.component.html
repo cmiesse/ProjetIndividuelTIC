@@ -1,0 +1,31 @@
+<h2>Villes</h2>
+<h3>Formulaire d'ajout</h3>
+<div class="add">
+  <form [formGroup]="villeForm" (ngSubmit)="addVille()">
+    <div class="field">
+      <label for="postalCode">Code postal</label><br>
+      <input type="number" id="postalCode" formControlName="postalCode"  minlength="4" maxlength="4">
+    </div>
+    <div class="field">
+      <label for="name">Nom</label><br>
+      <input type="text" id="name" formControlName="name">
+    </div>
+    <div class="field">
+      <label for="name">Nom (nl)</label><br>
+      <input type="text" id="nameNL" formControlName="nameNL">
+    </div>
+    <div class="field">
+      <label for="locationLink">Lien vers carte du lieu</label><br>
+      <input type="text" id="locationLink" formControlName="locationLink">
+    </div>
+    <br><div class="flex-center"><button class="blue" type="submit">Ajouter</button></div>
+    
+  </form>
+  <div class="errors">
+    <ul>
+      <li *ngIf="villeForm.controls.postalCode.touched && villeForm.controls.postalCode.hasError('required')">Le code postal est requis</li>
+      <li *ngIf="villeForm.controls.postalCode.touched && villeForm.controls.postalCode.hasError('pattern') && ( villeForm.controls.postalCode.hasError('min') || villeForm.controls.postalCode.hasError('max'))">Le code postal doit avoir 4 chiffres</li>
+        <li *ngIf="villeForm.controls.name.touched && villeForm.controls.name.hasError('required')">Le nom est requis</li>
+    </ul>
+</div>
+</div>

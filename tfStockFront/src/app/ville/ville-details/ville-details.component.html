@@ -1,0 +1,17 @@
+<h2>Détails sur la ville</h2>
+<div class="details">
+    <div class="ville-info" *ngIf="ville != null">
+        <p><b>{{ville.name}}</b> <span *ngIf="ville.nameNL != null"> ({{ville.nameNL}})</span></p><br>
+        <p><b>Code postal</b> : {{ville.postalCode}} </p>
+        <p><b>Province</b> : {{province}}</p>
+        <a *ngIf="ville.locationLink != null" [href]=ville.locationLink>Lien vers carte du lieu</a>
+        <h3>Liste de magasins par ville</h3>
+        <ul *ngIf="magasinList.length != 0">
+                <li *ngFor="let m of magasinList" [routerLink]="['/magasin', m.id]" class="clickable" title="Détails du magasin">
+                    {{m.name}}
+                </li>
+        </ul>
+        <p *ngIf="magasinList.length == 0">Aucun magasin dans cette ville</p>
+    </div>
+    <p *ngIf="ville == null">La ville au code postal {{postalCode}} n'existe pas</p>
+</div>

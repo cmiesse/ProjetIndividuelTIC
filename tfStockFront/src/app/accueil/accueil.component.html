@@ -1,0 +1,32 @@
+<div id="accueil" *ngIf="isLogged()">
+    <div class="accueil" [ngClass]="{'accueil-user':!isUserAdmin(),'accueil-admin':isUserAdmin()}">
+        <div routerLink="/add-annonce" class="ajouter link">
+            <p>Ajouter</p>
+        </div>
+        <div routerLink="/annonces" class="annonces link">
+            <p>Annonces</p>
+        </div>
+        <div routerLink="/prix" class="prix link" *ngIf="isUserAdmin()">
+            <p>Prix</p>
+        </div>
+        <div routerLink="/types" class="types link" *ngIf="isUserAdmin()">
+            <p>Types</p>
+        </div>
+        <div routerLink="/produits" class="produits link" *ngIf="isUserAdmin()">
+            <p>Produits</p>
+        </div>
+        <div routerLink="/villes" class="villes link" *ngIf="isUserAdmin()">
+            <p>Villes</p>
+        </div>
+        <div routerLink="/magasins" class="magasins link" *ngIf="isUserAdmin()">
+            <p>Magasins</p>
+        </div>
+        <div routerLink="/contact" class="contact link">
+            <p>Contact</p>
+        </div>
+        <div routerLink="/profil" class="profil link">
+            <p>Profil</p>
+        </div>
+    </div>
+</div>
+<app-sign-in *ngIf="!isLogged()"></app-sign-in>

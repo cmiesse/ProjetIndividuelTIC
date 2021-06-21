@@ -1,0 +1,13 @@
+<h2>Détails sur le magasin</h2>
+<div class="details">
+    <div class="magasin-info" *ngIf="magasin != null">
+        <p><b>{{magasin.name}}</b></p>
+        <br>
+        <p><b>Adresse</b> : </p>
+        <p>{{magasin.street}} {{magasin.number}},</p>
+        <p><span [routerLink]="['/ville', magasin.city.postalCode]" class="clickable" title="Détails de la ville">{{magasin.city.postalCode}} {{magasin.city.name}} <span *ngIf="magasin.city.nameNL != null"> ({{magasin.city.nameNL}})</span></span></p>
+        <a *ngIf="magasin.locationLink != null" [href]=magasin.locationLink>Lien vers carte du lieu</a>
+    </div>
+    <p *ngIf="magasin == null">Le magasin n°{{id}} n'existe pas</p>
+</div>
+

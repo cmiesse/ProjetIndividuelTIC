@@ -1,0 +1,55 @@
+<h2>Villes</h2>
+<button routerLink="/add-ville" class="ajouter blue">Ajouter ➕</button>
+<h3 *ngIf="!updateToggle">Liste de villes</h3>
+<label for="provinceSelected" *ngIf="!updateToggle">Province : </label>
+<select id="provinceSelected" [(ngModel)]="provinceSelected" (change)="onChange($event.target.value)" *ngIf="!updateToggle">
+  <option value="all" selected>Toutes les provinces</option>
+  <option *ngFor="let province of provinceList" value={{province}}>{{province}}</option>
+</select>
+<p *ngIf="villeList.length == 0">Aucune ville dans cette province</p>
+<table *ngIf="villeList.length != 0 && !updateToggle">
+    <tr>
+      <th>Code postal</th>
+      <th>Nom</th>
+      <th>Province</th>
+      <th>Carte</th>
+      <th class="actions">Actions</th>
+    </tr>
+    <tr *ngFor ="let ville of villeList">
+      <td>{{ville.postalCode}}</td>
+      <td [routerLink]="['/ville', ville.postalCode]" class="clickable" title="Détails de la ville">
+        {{ville.name}} <span *ngIf="ville.nameNL != null">({{ville.nameNL}})</span>
+      </td>
+      <td >{{getProvinceByPC(ville.postalCode)}}</td>
+      <td><a *ngIf="ville.locationLink != null" [href]=ville.locationLink>Lien</a><span *ngIf="ville.locationLink == null">/</span></td>
+      <td ><button class="orange" (click)="toggleUpdate(ville)">Modifier</button><button class="red" (click)="deleteVille(ville)" *ngIf="isVilleDeletable(ville)">Supprimer</button></td>
+      </tr>
+  </table>
+
+  <h3 *ngIf="updateToggle">Modification de la ville</h3>
+  <form [formGroup]="updateForm" (ngSubmit)="updateVille()">
+  <table class="updateTable" *ngIf="updateToggle">
+    <tr>
+      <th>Code postal</th>
+      <th>Nom</th>
+      <th>Nom (nl)</th>
+      <th>Carte</th>
+      <th class="actions">Validation</th>
+    </tr>
+    <tr>
+      <td>{{updateForm.value.postalCode}}</td>
+      <td>               
+          <input type="text" id="uName" formControlName="name">       
+      </td>
+      <td>               
+        <input type="text" id="uNameNL" formControlName="nameNL">       
+      </td>
+      <td>
+        <input type="url" id="uLocationLink" formControlName="locationLink">
+      </td>
+      <td><button class="orange" type="submit">Envoyer</button></td>
+      </tr>
+  </table>
+</form>
+
+  

@@ -1,0 +1,42 @@
+<h2>Types</h2>
+<button routerLink="/add-type" class="ajouter blue">Ajouter ➕</button>
+<h3 *ngIf="!updateToggle">Liste de types</h3>
+<table *ngIf="!updateToggle">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th class="actions">Actions</th>
+          </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor ="let type of typeList">
+            <td>{{type.id}}</td>
+            <td [routerLink]="['/type', type.id]" class="clickable" title="Détails du type">{{type.name}}</td>
+            <td><button class="orange" (click)="toggleUpdate(type)">Modifier</button><button class="red" (click)="deleteType(type)" *ngIf="isTypeDeletable(type)">Supprimer</button></td>
+        </tr>
+    </tbody>
+    
+  </table>
+<h3 *ngIf="updateToggle">Modification du type</h3>
+<form [formGroup]="updateForm" (ngSubmit)="updateType()" *ngIf="updateToggle">
+<table >
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th class="actions">Actions</th>
+          </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{selectedTypeId}}</td>
+            <td><input type="text" id="uName" formControlName="name"></td>
+            <td><button class="orange">Enregistrer</button></td>
+        </tr>
+    </tbody>
+    
+  </table>
+</form>
+
+  

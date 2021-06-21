@@ -1,0 +1,20 @@
+<h2>Utilisateurs</h2>
+<h3>Liste des utilisateurs</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Pseudo</th>
+            <th>Nom complet</th>
+            <th>Rôle</th>
+            <th class="actions">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of userList">
+            <td>{{user.username}}</td>
+            <td>{{user.firstName}} {{user.lastName}}</td>
+            <td><span *ngIf="user.roles.includes('ROLE_ADMIN')">ADMIN</span><span *ngIf="!user.roles.includes('ROLE_ADMIN')">USER</span></td>
+            <td><button *ngIf="isUserDeletable(user)" class="red" (click)="deleteUser(user)">Supprimer</button><span *ngIf="!isUserDeletable(user)">/</span></td>
+        </tr>
+    </tbody>
+</table>

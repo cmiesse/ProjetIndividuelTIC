@@ -1,0 +1,54 @@
+.responsive > * {
+  margin: 5px;
+}
+.card {
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 1rem;
+  background-color: beige;
+}
+legend {
+  margin-left: 1rem;
+  padding: 0.5rem;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid brown;
+}
+
+fieldset {
+  padding: 1rem;
+  border-radius: 5px;
+  border: 1px solid brown;
+  margin-bottom: 1rem;
+}
+
+/* Petit */
+@media only screen and (min-width: 800px) {
+  fieldset {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-evenly;
+  }
+
+  .responsive {
+    display: none;
+  }
+}
+
+/* Petit */
+@media only screen and (max-width: 800px) {
+  fieldset {
+    display: flex;
+    flex-direction: column;
+    max-height: 600px;
+  }
+
+  .annonce-container {
+    display: flex;
+    justify-content: row;
+  }
+  .annonce-table {
+    display: none;
+  }
+}

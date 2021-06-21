@@ -1,0 +1,25 @@
+header {
+  background-color: #252222;
+  color: #ffffff;
+  display: flex;
+  height: 3rem;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.user {
+  background-color: grey;
+  height: 2rem;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+button {
+  cursor: pointer;
+}
+
+p,
+button {
+  margin-right: 5px;
+}

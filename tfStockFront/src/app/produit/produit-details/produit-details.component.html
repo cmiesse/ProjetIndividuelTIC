@@ -1,0 +1,10 @@
+<h2>Détails sur le produit</h2>
+<div class="details">
+    <div class="produit-info" *ngIf="produit != null">
+        <p><b>{{produit.name}}</b></p><br>
+        <p [routerLink]="['/type', produit.type.id]" class="clickable" title="Détails du type"><b>Type</b> : {{produit.type.name}} </p>
+        <p><a [href]=produit.link>Plus d'infos</a></p>
+    </div>
+    <p *ngIf="produit == null">Le produit n°{{id}} n'existe pas</p>
+</div>
+

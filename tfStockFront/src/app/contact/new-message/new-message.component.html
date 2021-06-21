@@ -1,0 +1,22 @@
+<h3>Envoyer un message</h3>
+
+<div class="add">
+    
+    <form [formGroup]="messageForm" (ngSubmit)="addMessage()">
+        <label for="message">Message</label><br>
+        <textarea id="message" cols="50" rows="10" formControlName="message" placeholder="N'hésitez pas à nous faire part d'une recommandation, modification ou ajout pour le site"></textarea>
+        <br>
+        <div class="btn-container">
+            <button class="orange" type="button" (click)="preCompleteMessage('type')">Type</button>
+            <button class="orange" type="button" (click)="preCompleteMessage('produit')">Produit</button>
+            <button class="orange" type="button" (click)="preCompleteMessage('ville')">Ville</button>
+            <button class="orange" type="button" (click)="preCompleteMessage('magasin')">Magasin</button>
+            <button class="orange" type="button" (click)="preCompleteMessage('prix')">Prix</button>
+            <button class="red" *ngIf="messageForm.value.message != null" type="button" (click)="preCompleteMessage('vider')">Vider</button>
+        </div>
+        <br>
+        <button class="blue" type="submit">Envoyer</button>
+        
+    </form>
+    <div class="errors" *ngIf="messageForm.controls.message.touched && messageForm.controls.message.hasError('required')">Le message est requis</div>
+</div>

@@ -1,0 +1,58 @@
+<h2>Prix</h2>
+<button routerLink="/add-prix" class="ajouter blue">Ajouter ➕</button>
+<h3 *ngIf="!updateToggle">Liste des prix</h3>
+<label for="productFilter">Produit : </label>
+<select id="productFilter" (change)="onProductChange($event.target.value)" [(ngModel)]="productFilter">
+    <option value="0">Tous les produits</option>
+    <option *ngFor="let product of produitList" [value]="product.id">{{product.name}}</option>
+</select>
+
+<label for="shopFilter"> Magasin : </label>
+<select id="shopFilter" (change)="onShopChange($event.target.value)" [(ngModel)]="shopFilter">
+    <option value="0">Tous les magasins</option>
+    <option *ngFor="let shop of magasinList" [value]="shop.id">{{shop.name}}</option>
+</select>
+<p *ngIf="prixList.length == 0">Aucun résultat</p>
+<table *ngIf="prixList.length != 0 && !updateToggle">
+    <thead>
+        <tr>
+            <th>Produit</th>
+            <th>Magasin</th>
+            <th>Prix</th>
+            <th class="actions" *ngIf="isUserAdmin()">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let prix of prixList">
+            <td [routerLink]="['/produit', prix.product.id]" class="clickable" title="Détails du produit">{{prix.product.name}}</td>
+            <td [routerLink]="['/magasin', prix.shop.id]" class="clickable" title="Détails du magasin">{{prix.shop.name}}</td>
+            <td>{{prix.price}}
+            </td>
+            <td *ngIf="isUserAdmin()"><button class="orange" (click)="toggleUpdate(prix)">Modifier</button><button class="red" (click)="deletePrix(prix)">Supprimer</button></td>
+        </tr>
+    </tbody>
+</table>
+<h3 *ngIf="updateToggle">Modification du prix</h3>
+<form *ngIf="updateToggle" [formGroup]="updateForm" (ngSubmit)="updatePrix()">
+<table class="updateTable">
+    <thead>
+        <tr>
+            <th>Produit</th>
+            <th>Magasin</th>
+            <th>Prix</th>
+            <th class="actions">Validation</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{productTemp.name}}</td>
+            <td>{{shopTemp.name}}</td>
+            <td>     
+                <input type="number" id="uPrice" formControlName="price">
+            </td>
+            <td><button class="orange" type="submit">Envoyer</button></td>
+        </tr>
+    </tbody>
+</table>
+</form>
+

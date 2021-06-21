@@ -1,0 +1,14 @@
+<h2>Types</h2>
+<h3>Formulaire d'ajout</h3>
+<div class="add">
+  <form [formGroup]="typeForm" (ngSubmit)="addType()">
+    <div class="field">
+        <label for="name">Nom</label><br>
+      <input type="text" id="name" formControlName="name">
+  </div><br>
+  <div class="flex-center"><button class="blue" type="submit">Ajouter</button></div>
+   
+    
+</form>
+<div class="errors" *ngIf="typeForm.controls.name.touched && typeForm.controls.name.hasError('required')">Le nom est requis</div>
+</div>

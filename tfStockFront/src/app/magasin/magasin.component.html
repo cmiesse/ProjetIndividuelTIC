@@ -1,0 +1,60 @@
+<h2>Magasins</h2>
+<button routerLink="/add-magasin" class="ajouter blue">Ajouter ➕</button>
+<h3 *ngIf="!updateToggle">Liste de magasins</h3>
+<label for="villeSelected" *ngIf="!updateToggle">Ville : </label>
+<select id="villeSelected" [(ngModel)]="villeSelected" (change)="onVilleTableChange($event.target.value)" *ngIf="!updateToggle">
+  <option value="1">Toutes les villes</option>
+  <optgroup *ngFor="let province of provinceList" label={{province}}>
+    <option *ngFor="let ville of villeList|province:province" value={{ville.postalCode}}>{{ville.name}}</option>
+  </optgroup>
+</select>
+<p *ngIf="magasinList.length ==0 && !updateToggle">Aucun magasin ne correspond à cette ville</p>
+<table *ngIf="magasinList.length != 0 && !updateToggle">
+    <tr>
+      <th>ID</th>
+      <th>Nom</th>
+      <th>Adresse</th>
+      <th>Ville</th>
+      <!--<th>Adresse</th>-->
+      <th>Carte</th>
+      <th class="actions">Actions</th>
+    </tr>
+    <tr *ngFor ="let magasin of magasinList">
+      <td>{{magasin.id}}</td>
+      <td [routerLink]="['/magasin', magasin.id]" class="clickable" title="Détails du magasin">{{magasin.name}}</td>
+      <td>{{magasin.street}} {{magasin.number}}</td>
+      <td [routerLink]="['/ville', magasin.city.postalCode]" class="clickable" title="Détails de la ville">{{magasin.city.name}}</td>
+      <!--<td>{{magasin.street}} {{magasin.number}}, {{magasin.city.postalCode}} {{magasin.city.name}} </td>-->
+      <td><a *ngIf="magasin.locationLink != null" [href]=magasin.locationLink>Lien</a><span *ngIf="magasin.locationLink == null">/</span></td>
+      <td><button class="orange" (click)="toggleUpdate(magasin)">Modifier</button><button class="red" (click)="deleteMagasin(magasin)" *ngIf="isMagasinDeletable(magasin)">Supprimer</button></td>
+      </tr>
+  </table>
+  <h3 *ngIf="updateToggle">Modification du magasin</h3>
+    <form [formGroup]="updateForm" (ngSubmit)="updateMagasin()" *ngIf="updateToggle">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Rue</th>
+            <th>N°</th>
+            <th>Ville</th>
+            <th>Carte</th>
+            <th class="actions">Validation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{selectedMagasinId}}</td>
+            <td><input type="text" id="uName" formControlName="name"></td>
+            <td><input type="text" id="uStreet" formControlName="street"></td>
+            <td><input type="number" id="uNumber" formControlName="number"></td>
+            <td><select id="uCity" formControlName="city">
+              <option *ngFor="let ville of villeList" value={{ville.postalCode}}>{{ville.name}}</option>
+            </select></td>
+            <td><input type="url" id="uLocationLink" formControlName="locationLink"></td>
+            <td><button class="orange" type="submit">Enregistrer</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </form>

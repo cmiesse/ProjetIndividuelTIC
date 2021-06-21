@@ -1,0 +1,27 @@
+<h2>Produits</h2>
+<h3>Formulaire d'ajout</h3>
+<div class="add">
+  <form [formGroup]="produitForm" (ngSubmit)="addProduit()"> 
+      <div class="field"><label for="name">Nom</label><br>
+          <input type="text" id="name" formControlName="name">
+      </div>
+      <div class="field"><label for="type">Type</label><br>
+          <select type="text" id="type" formControlName="type">
+              <option value="-" selected disabled>- Choisissez un type -</option>
+              <option *ngFor="let type of typeList" value={{type.id}} >{{type.name}}</option>
+          </select>
+          
+      </div>
+      <div class="field"><label for="link">Lien</label><br>
+        <input type="url" id="link" formControlName="link">
+    </div>
+      <br><div class="flex-center"><button class="blue" type="submit">Ajouter</button></div>
+      
+  </form>
+  <div class="errors">
+      <ul>
+          <li *ngIf="produitForm.controls.name.touched && produitForm.controls.name.hasError('required')">Le nom est requis</li>
+          <li *ngIf="produitForm.controls.type.touched && produitForm.controls.type.hasError('pattern')">Un type doit être sélectionné</li>
+      </ul>
+  </div> 
+</div>

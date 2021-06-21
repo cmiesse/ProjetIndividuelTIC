@@ -1,0 +1,18 @@
+<h2>Détails sur le type</h2>
+<div class="details">
+    <div class="type-info" *ngIf="type != null">
+        <p><b>{{type.name}}</b></p>
+        <h3>Liste de produits du type</h3>
+        <ul *ngIf="produitList.length != 0">
+            
+    
+                <li *ngFor="let p of produitList" [routerLink]="['/produit', p.id]" class="clickable" title="Détails du produit">
+                    {{p.name}}
+                </li>
+        </ul>
+        <p *ngIf="produitList.length == 0">Aucun produit dans ce type</p>
+    </div>
+    <p *ngIf="type == null">Le type n°{{id}} n'existe pas</p>
+</div>
+
+

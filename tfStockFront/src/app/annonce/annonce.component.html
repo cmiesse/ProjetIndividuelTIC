@@ -1,0 +1,109 @@
+<h2>Annonces</h2>
+<button routerLink="/add-annonce" class="ajouter blue">Ajouter ➕</button>
+<h3>Liste d'annonces</h3>
+<div class="annonce-container">
+  <fieldset>
+    <legend>Filtres</legend>
+    <div class="field">
+      <label for="quantity">Quantité</label><br>
+      <select id="quantity" [(ngModel)]="quantity" (change)="onQuantityChange($event.target.value)">
+        <option value="all" selected>N'importe</option>
+        <option value="vide">vide</option>
+        <option value="peu">peu</option>
+        <option value="beaucoup">beaucoup</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="types">Types</label><br>
+      <select id="types" multiple [(ngModel)]="selectedTypes" (change)="onTypesChange($event.target.value)">
+        <option *ngFor="let type of typeList" value={{type.id}}>{{type.name}} <span *ngIf="isUserType(type)">❤</span></option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="produits">Produits</label><br>
+      <select id="produits" multiple [(ngModel)]="selectedProduits" (change)="onProduitsChange($event.target.value)">
+        <option *ngFor="let produit of produitList" value={{produit.id}}>{{produit.name}}  <span *ngIf="isUserProduit(produit)">❤</span></option>
+      </select>
+    </div>
+    <div class="field" *ngIf="isUserAdmin()">
+      <label for="auteur">Utilisateur</label><br>
+      <select id="auteur" [(ngModel)]="auteurSelected" (change)="onAuteurChange($event.target.value)">
+        <option value="0">Tous</option>
+        <option value={{getUserId()}}>Moi</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="ville">Ville</label><br>
+      <select id="ville" [(ngModel)]="villeSelected" (change)="onVilleChange($event.target.value)">
+        <option value="0" selected>Toutes les villes</option>
+        <optgroup *ngFor="let province of provinceList" label={{province}}>
+          <option *ngFor="let ville of villeList|province:province" value={{ville.postalCode}}>{{ville.name}} <span *ngIf="isUserCity(ville)">❤</span></option>
+        </optgroup>
+        
+      </select>
+    </div>
+    <div class="field">
+      <label for="magasin">Magasin</label><br>
+      <select id="magasin" [(ngModel)]="shop" (change)="onMagasinChange($event.target.value)">
+        <option value="0"selected>Tous les magasins</option>
+        <option *ngFor="let magasin of magasinList" value={{magasin.id}}>{{magasin.name}}</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="order">Ordre</label><br>
+      <select id="order" [(ngModel)]="order" (change)="onOrderChange($event.target.value)">
+        <option value="0" selected>La dernière d'abord</option>
+        <option value="1">La première d'abord</option>
+      </select>
+    </div>
+  </fieldset>
+
+
+  <div class="responsive">
+    <p *ngIf="annonceList.length == 0"> Aucune annonce ne satisfait les filtres</p>
+    <div class="card" *ngFor="let annonce of annonceList">
+      <p>{{annonce.quantity}} - 
+        <span [routerLink]="['/produit', annonce.product.id]" class="clickable" title="Détails du produit">{{annonce.product.name}}</span> - 
+        <span [routerLink]="['/magasin', annonce.shop.id]" class="clickable" title="Détails du magasin">{{annonce.shop.name}}</span> 
+        (<span [routerLink]="['/ville', annonce.shop.city.postalCode]" class="clickable" title="Détails de la ville">{{annonce.shop.city.name}}</span>) 
+      </p>
+      <p title="{{annonce.createdAt|date:'dd/MM/YYYY HH:mm'}}">{{annonce.createdAt | duree}}</p>
+      <p>{{annonce.price | prix}}</p>
+      <p *ngIf="isUserAdmin()">{{annonce.user.username}}</p>
+      <button class="red" (click)="deleteAnnonce(annonce)" *ngIf="isUserAdmin()">Supprimer</button>
+    </div>
+  </div>
+</div>
+  
+<div class="annonce-table">
+  <p *ngIf="annonceList.length == 0"> Aucune annonce ne satisfait les filtres</p>
+  <table *ngIf="annonceList.length != 0">
+  <thead>
+    <tr>
+      <th *ngIf="isUserAdmin()">ID</th>
+      <th>Quantité</th>
+      <th>Type</th>
+      <th>Produit</th>
+      <th *ngIf="isUserAdmin()">Utilisateur</th>
+      <th>Ville</th>
+      <th>Magasin</th>
+      <th>Prix</th>
+      <th>Créé il y a</th>
+      <th *ngIf="isUserAdmin()" class="actions">Actions</th>
+    </tr>
+  </thead>
+    <tbody>
+      <tr *ngFor ="let annonce of annonceList">
+        <td *ngIf="isUserAdmin()">{{annonce.id}}</td>
+        <td>{{annonce.quantity}}</td>
+        <td [routerLink]="['/type', annonce.product.type.id]" class="clickable" title="Détails du type">{{annonce.product.type.name}}</td>
+        <td [routerLink]="['/produit', annonce.product.id]" class="clickable" title="Détails du produit">{{annonce.product.name}}</td>
+        <td *ngIf="isUserAdmin()">{{annonce.user.username}}</td>
+        <td [routerLink]="['/ville', annonce.shop.city.postalCode]" class="clickable" title="Détails de la ville">{{annonce.shop.city.name}}</td>
+        <td [routerLink]="['/magasin', annonce.shop.id]" class="clickable">{{annonce.shop.name}}</td>
+        <td>{{annonce.price | prix}}</td>
+        <td title="{{annonce.createdAt|date:'dd/MM/YYYY HH:mm'}}">{{annonce.createdAt | duree}}</td>
+        <td *ngIf="isUserAdmin()"><button class="red" (click)="deleteAnnonce(annonce)">Supprimer</button></td>
+        </tr>
+    </tbody>
+  </table></div>

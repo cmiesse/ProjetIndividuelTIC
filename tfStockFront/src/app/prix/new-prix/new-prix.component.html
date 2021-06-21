@@ -1,0 +1,36 @@
+<h2>Prix</h2>
+<h3>Formulaire d'ajout</h3>
+<div class="add">
+    <form [formGroup]="prixForm" (ngSubmit)="addPrix()">
+        <div class="field">
+            <label for="product">Produit</label><br>
+            <select id="product" formControlName="product">
+                <option value="-" selected disabled>Choisissez un produit</option>
+                <option *ngFor="let produit of produitList" value={{produit.id}}>{{produit.name}}</option>
+            </select>
+            
+        </div>
+        
+        <div class="field">
+            <label for="shop">Magasin</label><br>
+            <select id="shop" formControlName="shop">
+                <option value="-" selected disabled>Choisissez un magasin</option>
+                <option *ngFor="let magasin of magasinList" value={{magasin.id}}>{{magasin.name}}</option>
+            </select>
+        </div>
+        <div class="field">
+            <label for="price">Prix</label><br>
+            <input type="number" id="price" formControlName="price">
+        </div><br>
+        <div class="flex-center"><button class="blue" type="submit">Ajouter</button></div>
+        <p *ngIf="error != null">{{error}}</p>
+    </form>
+    <div class="errors">
+        <ul>
+            <li *ngIf="prixForm.controls.shop.touched && prixForm.controls.shop.hasError('pattern')">Un magasin doit être sélectionné</li>
+            <li *ngIf="prixForm.controls.product.touched && prixForm.controls.product.hasError('pattern')">Un produit doit être sélectionné</li>
+            <li *ngIf="prixForm.controls.price.touched && prixForm.controls.price.hasError('required')">Le prix est requis</li>
+        </ul>
+    </div>
+    
+</div>

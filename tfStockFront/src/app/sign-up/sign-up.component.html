@@ -1,0 +1,69 @@
+<h2>Inscription</h2>
+<div class="add">
+    <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
+        <div class="field">
+            <label for="pseudo" class="label">Pseudo</label><br>
+            <input type="text" name="pseudo" id="pseudo" autocomplete="new-username" placeholder=" " formControlName="username">
+            
+        </div>
+        <div class="field">
+            <label for="password" class="label">Mot de passe</label><br>
+            <input
+            type="password"
+            autocomplete="new-password"
+            placeholder=" " formControlName="password">
+          
+          
+        </div>
+        <div class="field">
+            <label for="firstName">Prénom</label><br>
+            <input type="text" id="firstName" formControlName="firstName">
+        </div>
+        <div class="field">
+            <label for="lastName">Nom</label><br>
+            <input type="text" id="lastName" formControlName="lastName">
+        </div>
+        <div class="field">
+            <label for="email">Email</label><br>
+            <input type="email" id="email" formControlName="email">
+        </div>
+        <div class="field">
+            <label for="city">Ville</label><br>
+            <select id="city" formControlName="city">
+                <option value="-" selected disabled>- Choisissez votre ville -</option>
+                <option *ngFor="let ville of cityList" value={{ville.postalCode}}>{{ ville.name }}</option>
+            </select>
+        </div>
+    
+        <div class="field">
+            <label for="chosenTypes">Types choisis</label><br>
+            <select id="chosenTypes" formControlName="chosenTypes" multiple >
+                <option value="-" selected disabled>- Choisissez vos types -</option>
+                <option *ngFor="let type of typeList" value={{type.id}}>{{ type.name }}</option>
+            </select>
+        </div>
+    
+        <div class="field">
+            <label for="chosenProducts">Produits choisis</label><br>
+            <select id="chosenProducts" formControlName="chosenProducts" multiple>
+                <option value="-" selected disabled>- Choisissez vos produits -</option>
+                <option *ngFor="let produit of productList" value={{produit.id}}>{{ produit.name }}</option>
+            </select>
+        </div>
+        
+        <p *ngIf="error !=null">{{error}}</p>
+        <div class="flex-center"><button type="submit" class="green" [disabled]="signUpForm.invalid">S'enregistrer</button></div>
+        <button routerLink="" class="blue">Déjà un compte ? Connectez-vous !</button>
+    </form>
+    <div class="errors">
+        <ul>
+          <li *ngIf="signUpForm.controls.username.touched && signUpForm.controls.username.hasError('required')">Le pseudo est requis</li>
+          <li *ngIf="signUpForm.controls.password.touched && signUpForm.controls.password.hasError('required')">Le mot de passe est requis</li>
+          <li *ngIf="signUpForm.controls.firstName.touched && signUpForm.controls.firstName.hasError('required')">Le prénom est requis</li>
+          <li *ngIf="signUpForm.controls.lastName.touched && signUpForm.controls.lastName.hasError('required')">Le nom est requis</li>
+          <li *ngIf="signUpForm.controls.email.touched && signUpForm.controls.email.hasError('required')">L'email est requis</li>
+          <li *ngIf="signUpForm.controls.email.touched && signUpForm.controls.email.hasError('email')">L'email n'est pas une adresse email valide</li>
+          <li *ngIf="signUpForm.controls.city.touched && signUpForm.controls.city.hasError('pattern')">Une ville doit être sélectionnée</li>
+        </ul>
+      </div>
+</div>

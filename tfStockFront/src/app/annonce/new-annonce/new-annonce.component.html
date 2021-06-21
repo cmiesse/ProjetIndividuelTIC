@@ -1,0 +1,52 @@
+<h2>Ajouter une annonce</h2>
+<div class="add">
+    <fieldset>
+        <div class="addForm">
+            <div class="field">
+                <label for="ville">Ville</label><br>
+                <select id="ville" [(ngModel)]="city" (change)="onVilleChange($event.target.value)">
+                  <option value="0" selected>Toutes les villes</option>
+                  <optgroup *ngFor="let province of provinceList" label={{province}}>
+                    <option *ngFor="let ville of villeList|province:province" value={{ville.postalCode}}>{{ville.name}} <span *ngIf="isUserCity(ville)">❤</span></option>
+                  </optgroup>
+                  
+                </select>
+            </div>
+            <form [formGroup]="annonceForm" (ngSubmit)="submitForm()">
+                <div class="field">
+                    <label for="shop">Magasin</label><br>
+                    <select id="shop" formControlName="shop">
+                        <option value="-" selected disabled>- Séléctionner un magasin -</option>
+                        <option *ngFor="let shop of shopList" value={{shop.id}}>{{shop.name}}</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="quantity">Quantité</label><br>
+                    <select id="quantity" formControlName="quantity">
+                        <option value="-" selected disabled>- Séléctionner une quantité -</option>
+                        <option *ngFor="let quantity of quantityList" value={{quantity}}>{{quantity}}</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="product">Produit</label><br>
+                    <select id="product" formControlName="product">
+                        <option value="-" selected disabled>- Séléctionner un produit -</option>
+                        <option *ngFor="let product of productList" value={{product.id}}>{{product.name}}</option>
+                    </select>
+                </div>
+                
+                <br>
+                <div class="flex-center"><button class="blue" type="submit" [disabled]="isFormInvalid()">Envoyer</button></div>
+                
+            </form>
+        </div>
+    </fieldset>
+    
+    <div class="errors">
+        <ul>
+          <li *ngIf="annonceForm.controls.shop.touched && annonceForm.controls.shop.hasError('pattern')">Un magasin doit être sélectionné</li>
+          <li *ngIf="annonceForm.controls.product.touched && annonceForm.controls.product.hasError('pattern')">Un produit doit être sélectionné</li>
+          <li *ngIf="annonceForm.controls.quantity.touched && annonceForm.controls.quantity.hasError('pattern')">Une quantité doit être sélectionnée</li>
+        </ul>
+      </div>
+</div>
